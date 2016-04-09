@@ -21,6 +21,10 @@
   (render [x] (html [:code (str x)]))
   boolean
   (render [x] (html [:code (str x)]))
+  cljs.core.Symbol
+  (render [x] (html [:code (str x)]))
+  cljs.core.Keyword
+  (render [x] (html [:code (str x)]))
   cljs.core.List
   (render [xs] (ordered-collection "list" "(" xs ")"))
   cljs.core.PersistentVector
