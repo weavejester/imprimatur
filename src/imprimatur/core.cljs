@@ -1,6 +1,5 @@
-(ns imprimatur.core)
+(ns imprimatur.core
+  (:require [flupot.dom :as dom]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn render [x]
+  (dom/pre (pr-str x)))
