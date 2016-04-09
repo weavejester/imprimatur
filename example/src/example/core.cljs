@@ -6,5 +6,5 @@
   ["foo" 2 #{:bar '(foo bar)} true nil {:foo "bar" :baz "quz"}])
 
 (br/mount
- (imp/render data)
+ (imp/render data {2 {'(foo bar) true}})
  (.getElementById js/document "main"))
