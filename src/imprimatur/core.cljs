@@ -1,15 +1,15 @@
 (ns imprimatur.core
-  (:require [flupot.dom :as dom]))
+  (:require [sablono.core :refer-macros [html]]))
 
 (defprotocol Renderable
   (render [x]))
 
 (extend-protocol Renderable
   nil
-  (render [_] (dom/code "nil"))
+  (render [_] (html [:code "nil"]))
   string
-  (render [x] (dom/code (pr-str x)))
+  (render [x] (html [:code (pr-str x)]))
   number
-  (render [x] (dom/code (str x)))
+  (render [x] (html [:code (str x)]))
   boolean
-  (render [x] (dom/code (str x))))
+  (render [x] (html [:code (str x)])))

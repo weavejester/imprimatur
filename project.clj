@@ -8,7 +8,7 @@
                  [cljsjs/react "0.14.3-0"]
                  [cljsjs/react-dom "0.14.3-1"]
                  [brutha "0.2.0"]
-                 [flupot "0.2.1"]]
+                 [sablono "0.6.3"]]
   :plugins [[lein-cljsbuild "1.1.3"]]
   :cljsbuild
   {:builds {:main {:source-paths ["src"]
