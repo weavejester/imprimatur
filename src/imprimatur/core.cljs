@@ -16,7 +16,16 @@
 (defn- unordered-content [coll]
   (html
    [:ul.content
-    (map (fn [x] (html [:li {:key (pr-str x)} (render x)])) coll)]))
+    (for [x coll]
+      [:li {:key (pr-str x)} (render x)])]))
+
+(defn- map-content [m]
+  (html
+   [:dl.content
+    (for [[k v] m]
+      (list
+       [:dt {:key (str "key$" (pr-str k))} (render k)]
+       [:dd {:key (str "val$" (pr-str v))} (render v)]))]))
 
 (extend-protocol Renderable
   nil
@@ -36,4 +45,8 @@
   cljs.core.PersistentVector
   (render [xs] (render-coll "vector" "[" (ordered-content xs) "]"))
   cljs.core.PersistentHashSet
-  (render [xs] (render-coll "set" "#{" (unordered-content xs) "}")))
+  (render [xs] (render-coll "set" "#{" (unordered-content xs) "}"))
+  cljs.core.PersistentHashMap
+  (render [m] (render-coll "map" "{" (map-content m) "}"))
+  cljs.core.PersistentArrayMap
+  (render [m] (render-coll "map" "{" (map-content m) "}")))
