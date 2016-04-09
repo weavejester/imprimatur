@@ -3,7 +3,7 @@
             [imprimatur.core :as imp]))
 
 (def data
-  ["foo" :bar 2 true nil '(foo bar)])
+  ["foo" 2 #{:bar '(foo bar)} true nil])
 
 (br/mount
  (imp/render data)
