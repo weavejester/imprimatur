@@ -3,7 +3,7 @@
             [imprimatur.core :as imp]))
 
 (def data
-  "Hello World")
+  ["foo" 2 '(true nil)])
 
 (br/mount
  (imp/render data)
