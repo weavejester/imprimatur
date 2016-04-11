@@ -6,11 +6,9 @@
 (defprotocol IRenderable
   (-render [x state]))
 
-(defn render [state]
-  (-render (:root state) state))
-
 (def print
-  (br/component render))
+  (br/component
+   (fn [state] (-render (:root state) state))))
 
 (def ^:private ellipses
   (html [:span.ellipses "..."]))
@@ -22,33 +20,49 @@
     content
     [:span.closing closing]]))
 
-(defn- ordered-content [coll {:keys [open]}]
-  (if open
-    (html
-     [:ol.content
-      (map-indexed
-       (fn [i x] (html [:li {:key i} (print {:root x :open (get open i)})]))
-       coll)])
+(defn- ordered-element [i x state]
+  (html
+   [:li {:key (str i)}
+    (print (-> state
+               (assoc :root x)
+               (update :open get i)
+               (update :index conj i)))]))
+
+(defn- ordered-content [coll state]
+  (if (:open state)
+    (html [:ol.content (map-indexed #(ordered-element %1 %2 state) coll)])
     ellipses))
 
-(defn- unordered-content [coll {:keys [open]}]
-  (if open
-    (html
-     [:ul.content
-      (for [x coll]
-        [:li {:key (pr-str x)} (print {:root x :open (get open x)})])])
+(defn- unordered-element [x state]
+  (html
+   [:li {:key (pr-str x)}
+    (print (-> state
+               (assoc :root x)
+               (update :open get x)
+               (update :index conj x)))]))
+
+(defn- unordered-content [coll state]
+  (if (:open state)
+    (html [:ul.content (map #(unordered-element % state) coll)])
     ellipses))
 
-(defn- map-content [m {:keys [open]}]
-  (if open
-    (html
-     [:dl.content
-      (for [[k v] m]
-        (list
-         [:dt {:key (str "key$" (pr-str k))}
-          (print {:root k :open (:key (get open k))})]
-         [:dd {:key (str "val$" (pr-str v))}
-          (print {:root v :open (:val (get open k))})]))])
+(defn- map-entry-element [[k v] state]
+  (html
+   (list
+    [:dt {:key (str "key$" (pr-str k))}
+     (print (-> state
+                (assoc :root k)
+                (update :open #(-> % (get k) :key))
+                (update :index #(-> % (conj k) (conj :key)))))]
+    [:dd {:key (str "val$" (pr-str v))}
+     (print (-> state
+                (assoc :root v)
+                (update :open #(-> % (get k) :val))
+                (update :index #(-> % (conj k) (conj :val)))))])))
+
+(defn- map-content [m state]
+  (if (:open state)
+    (html [:dl.content (map #(map-entry-element % state) m)])
     ellipses))
 
 (extend-protocol IRenderable
