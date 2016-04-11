@@ -20,7 +20,7 @@
     content
     [:span.closing closing]]))
 
-(defn- ordered-element [i x state]
+(defn- ordered-element [state i x]
   (html
    [:li {:key (str i)}
     (print (-> state
@@ -28,12 +28,12 @@
                (update :open get i)
                (update :index conj i)))]))
 
-(defn- ordered-content [coll state]
+(defn- ordered-content [state coll]
   (if (:open state)
-    (html [:ol.content (map-indexed #(ordered-element %1 %2 state) coll)])
+    (html [:ol.content (map-indexed #(ordered-element state %1 %2) coll)])
     ellipses))
 
-(defn- unordered-element [x state]
+(defn- unordered-element [state x]
   (html
    [:li {:key (pr-str x)}
     (print (-> state
@@ -41,12 +41,12 @@
                (update :open get x)
                (update :index conj x)))]))
 
-(defn- unordered-content [coll state]
+(defn- unordered-content [state coll]
   (if (:open state)
-    (html [:ul.content (map #(unordered-element % state) coll)])
+    (html [:ul.content (map #(unordered-element state %) coll)])
     ellipses))
 
-(defn- map-entry-element [[k v] state]
+(defn- map-entry-element [state [k v]]
   (html
    (list
     [:dt {:key (str "key$" (pr-str k))}
@@ -60,9 +60,9 @@
                 (update :open #(-> % (get k) :val))
                 (update :index #(-> % (conj k) (conj :val)))))])))
 
-(defn- map-content [m state]
+(defn- map-content [state m]
   (if (:open state)
-    (html [:dl.content (map #(map-entry-element % state) m)])
+    (html [:dl.content (map #(map-entry-element state %) m)])
     ellipses))
 
 (extend-protocol IRenderable
@@ -79,12 +79,12 @@
   cljs.core.Keyword
   (-render [x _] (html [:code (str x)]))
   cljs.core.List
-  (-render [xs state] (render-coll "list" "(" (ordered-content xs state) ")"))
+  (-render [xs state] (render-coll "list" "(" (ordered-content state xs) ")"))
   cljs.core.PersistentVector
-  (-render [xs state] (render-coll "vector" "[" (ordered-content xs state) "]"))
+  (-render [xs state] (render-coll "vector" "[" (ordered-content state xs) "]"))
   cljs.core.PersistentHashSet
-  (-render [xs state] (render-coll "set" "#{" (unordered-content xs state) "}"))
+  (-render [xs state] (render-coll "set" "#{" (unordered-content state xs) "}"))
   cljs.core.PersistentHashMap
-  (-render [m state] (render-coll "map" "{" (map-content m state) "}"))
+  (-render [m state] (render-coll "map" "{" (map-content state m) "}"))
   cljs.core.PersistentArrayMap
-  (-render [m state] (render-coll "map" "{" (map-content m state) "}")))
+  (-render [m state] (render-coll "map" "{" (map-content state m) "}")))
