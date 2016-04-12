@@ -5,7 +5,7 @@
 (def data
   ["foo" 2 #{:bar '(foo bar)} true nil {:foo "bar" :baz "quz"}])
 
-(def opened
+(def visibility
   (atom {}))
 
 (def main
@@ -15,10 +15,10 @@
   (br/mount
    (imp/print
     {:root data
-     :opened @opened
-     :on-click #(swap! opened imp/toggle-form %)})
+     :visibility @visibility
+     :on-click #(swap! visibility imp/toggle %)})
    main))
 
-(add-watch opened :change (fn [_ _ _ _] (render)))
+(add-watch visibility :change (fn [_ _ _ _] (render)))
 
 (render)
