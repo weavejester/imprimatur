@@ -6,6 +6,20 @@
 (defprotocol IRenderable
   (-render [x state]))
 
+(defn open-form [m ks]
+  (assoc-in (or m {}) ks {}))
+
+(defn close-form [m ks]
+  (if (next ks)
+    (update-in m (butlast ks) dissoc (last ks))
+    (if-let [k (first ks)]
+      (dissoc m (first ks)))))
+
+(defn toggle-form [m ks]
+  (if (get-in m ks)
+    (close-form m ks)
+    (open-form m ks)))
+
 (def print
   (br/component
    (fn [state] (-render (:root state) state))))
@@ -32,11 +46,11 @@
    [:li {:key (str i)}
     (print (-> state
                (assoc :root x)
-               (update :open get i)
+               (update :opened get i)
                (update :index conj i)))]))
 
 (defn- ordered-content [state coll]
-  (if (:open state)
+  (if (:opened state)
     (html [:ol.content (map-indexed #(ordered-element state %1 %2) coll)])
     ellipses))
 
@@ -45,11 +59,11 @@
    [:li {:key (pr-str x)}
     (print (-> state
                (assoc :root x)
-               (update :open get x)
+               (update :opened get x)
                (update :index conj x)))]))
 
 (defn- unordered-content [state coll]
-  (if (:open state)
+  (if (:opened state)
     (html [:ul.content (map #(unordered-element state %) coll)])
     ellipses))
 
@@ -59,16 +73,16 @@
     [:dt {:key (str "key$" (pr-str k))}
      (print (-> state
                 (assoc :root k)
-                (update :open #(-> % (get k) :key))
+                (update :opened #(-> % (get k) :key))
                 (update :index #(-> % (conj k) (conj :key)))))]
     [:dd {:key (str "val$" (pr-str v))}
      (print (-> state
                 (assoc :root v)
-                (update :open #(-> % (get k) :val))
+                (update :opened #(-> % (get k) :val))
                 (update :index #(-> % (conj k) (conj :val)))))])))
 
 (defn- map-content [state m]
-  (if (:open state)
+  (if (:opened state)
     (html [:dl.content (map #(map-entry-element state %) m)])
     ellipses))
 
