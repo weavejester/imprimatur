@@ -13,9 +13,16 @@
 (def ^:private ellipses
   (html [:span.ellipses "..."]))
 
-(defn- render-coll [class opening content closing]
+(defn- on-click-handler [f index]
+  (let [index (vec (reverse index))]
+    (fn [event]
+      (.stopPropagation event)
+      (f index))))
+
+(defn- render-coll [{:keys [on-click index]} class opening content closing]
   (html
-   [:div {:class class}
+   [:div {:class    class
+          :on-click (if on-click (on-click-handler on-click index))}
     [:span.opening opening]
     content
     [:span.closing closing]]))
@@ -79,12 +86,12 @@
   cljs.core.Keyword
   (-render [x _] (html [:code (str x)]))
   cljs.core.List
-  (-render [xs state] (render-coll "list" "(" (ordered-content state xs) ")"))
+  (-render [xs state] (render-coll state "list" "(" (ordered-content state xs) ")"))
   cljs.core.PersistentVector
-  (-render [xs state] (render-coll "vector" "[" (ordered-content state xs) "]"))
+  (-render [xs state] (render-coll state "vector" "[" (ordered-content state xs) "]"))
   cljs.core.PersistentHashSet
-  (-render [xs state] (render-coll "set" "#{" (unordered-content state xs) "}"))
+  (-render [xs state] (render-coll state "set" "#{" (unordered-content state xs) "}"))
   cljs.core.PersistentHashMap
-  (-render [m state] (render-coll "map" "{" (map-content state m) "}"))
+  (-render [m state] (render-coll state "map" "{" (map-content state m) "}"))
   cljs.core.PersistentArrayMap
-  (-render [m state] (render-coll "map" "{" (map-content state m) "}")))
+  (-render [m state] (render-coll state "map" "{" (map-content state m) "}")))
