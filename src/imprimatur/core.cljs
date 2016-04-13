@@ -22,7 +22,8 @@
 
 (def print
   (br/component
-   (fn [state] (-render (:root state) state))))
+   (fn [state]
+     (html [:div.imprimatur (-render (:root state) state)]))))
 
 (def ^:private ellipses
   (html [:span.ellipses "..."]))

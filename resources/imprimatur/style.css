@@ -1,0 +1,18 @@
+.imprimatur {
+    display: inline-block;
+}
+
+.imprimatur li {
+    display: block;
+}
+
+.imprimatur ul,
+.imprimatur ol {
+    padding: 0 0 0 1em;
+    margin: 0;
+}
+
+.imprimatur .opening,
+.imprimatur .closing {
+    font-family: monospace;
+}
