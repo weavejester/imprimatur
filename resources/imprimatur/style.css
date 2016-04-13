@@ -13,6 +13,10 @@
     margin: 0;
 }
 
+.imprimatur .coll.hover {
+    background: #ffff00;
+}
+
 .imprimatur .opening,
 .imprimatur .closing {
     font-family: monospace;

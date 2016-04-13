@@ -1,6 +1,7 @@
 (ns imprimatur.core
   (:refer-clojure :exclude [print])
   (:require [brutha.core :as br]
+            [dommy.core :as dommy]
             [sablono.core :refer-macros [html]]))
 
 (defprotocol IRenderable
@@ -25,22 +26,25 @@
    (fn [state]
      (html [:div.imprimatur (-render (:root state) state)]))))
 
-(def ^:private ellipses
-  (html [:span.ellipses "..."]))
-
 (defn- on-click-handler [f index]
   (let [index (vec (reverse index))]
     (fn [event]
       (.stopPropagation event)
       (f index))))
 
-(defn- render-coll [{:keys [on-click index]} class opening content closing]
+(defn- render-coll [{:keys [on-click index visibility]} class opening content closing]
   (html
-   [:div {:class    class
-          :on-click (if on-click (on-click-handler on-click index))}
-    [:span.opening opening]
-    content
-    [:span.closing closing]]))
+   [:div.coll {:class         class
+               :style         {:pointer-events :auto}
+               :on-click      (if on-click (on-click-handler on-click index))
+               :on-mouse-over #(dommy/add-class! (.-target %) "hover")
+               :on-mouse-out  #(dommy/remove-class! (.-target %) "hover")}
+    [:div.inner {:style {:pointer-events :none}}
+     [:span.opening opening]
+     (if visibility
+       [:div.content content]
+       [:span.ellipses "..."])
+     [:span.closing closing]]]))
 
 (defn- ordered-element [state i x]
   (html
@@ -51,9 +55,7 @@
                (update :index conj i)))]))
 
 (defn- ordered-content [state coll]
-  (if (:visibility state)
-    (html [:ol.content (map-indexed #(ordered-element state %1 %2) coll)])
-    ellipses))
+  (html [:ol (map-indexed #(ordered-element state %1 %2) coll)]))
 
 (defn- unordered-element [state x]
   (html
@@ -64,9 +66,7 @@
                (update :index conj x)))]))
 
 (defn- unordered-content [state coll]
-  (if (:visibility state)
-    (html [:ul.content (map #(unordered-element state %) coll)])
-    ellipses))
+  (html [:ul (map #(unordered-element state %) coll)]))
 
 (defn- map-entry-element [state [k v]]
   (html
@@ -83,9 +83,7 @@
                 (update :index #(-> % (conj k) (conj :val)))))]]))
 
 (defn- map-content [state m]
-  (if (:visibility state)
-    (html [:table.content (map #(map-entry-element state %) m)])
-    ellipses))
+  (html [:table (map #(map-entry-element state %) m)]))
 
 (extend-protocol IRenderable
   nil
