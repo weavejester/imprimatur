@@ -3,7 +3,7 @@
             [imprimatur.core :as imp]))
 
 (def data
-  ["foo" 2 #{:bar '(foo bar)} true nil {:foo "bar" :baz "quz"}])
+  (atom ["foo" {:time 0} #{:bar '(foo bar)} true nil {:foo "bar" :baz "quz"}]))
 
 (def visibility
   (atom {}))
@@ -14,11 +14,17 @@
 (defn render []
   (br/mount
    (imp/print
-    {:root data
+    {:root @data
      :visibility @visibility
      :on-click #(swap! visibility imp/toggle %)})
    main))
 
+(defn inc-time []
+  (swap! data update-in [1 :time] inc)
+  (js/setTimeout inc-time 1000))
+
 (add-watch visibility :change (fn [_ _ _ _] (render)))
+(add-watch data       :change (fn [_ _ _ _] (render)))
 
 (render)
+(inc-time)
