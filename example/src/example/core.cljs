@@ -16,7 +16,7 @@
    (imp/print
     {:root @data
      :visibility @visibility
-     :on-click #(swap! visibility imp/toggle %)})
+     :on-double-click #(swap! visibility imp/toggle %)})
    main))
 
 (defn inc-time []
