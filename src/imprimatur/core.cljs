@@ -1,7 +1,6 @@
 (ns imprimatur.core
   (:refer-clojure :exclude [print])
   (:require [brutha.core :as br]
-            [dommy.core :as dommy]
             [sablono.core :refer-macros [html]]))
 
 (defprotocol IRenderable
@@ -29,19 +28,15 @@
 (defn- click-handler [f index]
   (let [index (vec (reverse index))]
     (fn [event]
-      (doto event .preventDefault .stopPropagation)
+      (.stopPropagation event)
       (f index))))
 
 (defn- render-coll
-  [{:keys [on-click on-double-click index visibility]} class opening content closing]
+  [{:keys [on-toggle index visibility]} class opening content closing]
   (html
-   [:div.coll {:class           class
-               :style           {:pointer-events :auto}
-               :on-click        (if on-click        (click-handler on-click index))
-               :on-double-click (if on-double-click (click-handler on-double-click index))
-               :on-mouse-over   #(dommy/add-class!    (.-target %) "hover")
-               :on-mouse-out    #(dommy/remove-class! (.-target %) "hover")}
-    [:div.inner {:style {:pointer-events :none}}
+   [:div.coll {:class class}
+    [:div.toggle {:on-click (click-handler on-toggle index)} "+"]
+    [:div.inner
      [:span.opening opening]
      (if visibility
        [:div.content content]
