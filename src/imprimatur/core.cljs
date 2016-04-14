@@ -1,6 +1,7 @@
 (ns imprimatur.core
   (:refer-clojure :exclude [print])
   (:require [brutha.core :as br]
+            [clojure.string :as str]
             [sablono.core :refer-macros [html]]))
 
 (defprotocol IRenderable
@@ -83,6 +84,10 @@
 (defn- map-content [state m]
   (html [:dl (map #(map-entry-element state %) m)]))
 
+(defn- tagged-data [class x]
+  (let [[tag data] (str/split (pr-str x) #" " 2)]
+    (html [:code {:class class} [:span.tag tag] " " [:span.string data]])))
+
 (extend-protocol IRenderable
   nil
   (-render [_ _] (html [:code.nil "nil"]))
@@ -92,14 +97,14 @@
   (-render [x _] (html [:code.number (str x)]))
   boolean
   (-render [x _] (html [:code.boolean (str x)]))
-  js/Date
-  (-render [x _] (html [:code (pr-str x)]))
   cljs.core.Symbol
   (-render [x _] (html [:code.symbol (str x)]))
   cljs.core.Keyword
   (-render [x _] (html [:code.keyword (str x)]))
   cljs.core.UUID
-  (-render [x _] (html [:code (pr-str x)]))
+  (-render [x _] (tagged-data "uuid" x))
+  js/Date
+  (-render [x _] (tagged-data "date" x))
   cljs.core.List
   (-render [xs state] (render-coll state "list" "(" (ordered-content state xs) ")"))
   cljs.core.PersistentVector
