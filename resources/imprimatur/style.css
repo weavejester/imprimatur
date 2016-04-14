@@ -1,7 +1,3 @@
-.imprimatur {
-    display: inline-block;
-}
-
 .imprimatur li {
     display: block;
 }
@@ -13,11 +9,26 @@
     margin: 0;
 }
 
-.imprimatur coll.hover {
-    background: #ffff00;
-}
-
 .imprimatur .opening,
 .imprimatur .closing {
     font-family: monospace;
+}
+
+.imprimatur .toggle,
+.imprimatur .inner {
+    vertical-align: top;
+    display: inline-block;
+}
+
+.imprimatur .toggle .open:before {
+    content: '\25BE';
+}
+
+.imprimatur .toggle .closed:before {
+    content: '\25B8';
+}
+
+.imprimatur .toggle {
+    cursor: pointer;
+    margin-right: .3em;
 }

@@ -35,7 +35,8 @@
   [{:keys [on-toggle index visibility]} class opening content closing]
   (html
    [:div.coll {:class class}
-    [:div.toggle {:on-click (click-handler on-toggle index)} "+"]
+    [:div.toggle {:on-click (click-handler on-toggle index)}
+     (if visibility [:span.open] [:span.closed])]
     [:div.inner
      [:span.opening opening]
      (if visibility
