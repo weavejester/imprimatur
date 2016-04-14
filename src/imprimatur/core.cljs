@@ -85,19 +85,19 @@
 
 (extend-protocol IRenderable
   nil
-  (-render [_ _] (html [:code "nil"]))
+  (-render [_ _] (html [:code.nil "nil"]))
   string
-  (-render [x _] (html [:code (pr-str x)]))
+  (-render [x _] (html [:code.string (pr-str x)]))
   number
-  (-render [x _] (html [:code (str x)]))
+  (-render [x _] (html [:code.number (str x)]))
   boolean
-  (-render [x _] (html [:code (str x)]))
+  (-render [x _] (html [:code.boolean (str x)]))
   js/Date
   (-render [x _] (html [:code (pr-str x)]))
   cljs.core.Symbol
-  (-render [x _] (html [:code (str x)]))
+  (-render [x _] (html [:code.symbol (str x)]))
   cljs.core.Keyword
-  (-render [x _] (html [:code (str x)]))
+  (-render [x _] (html [:code.keyword (str x)]))
   cljs.core.UUID
   (-render [x _] (html [:code (pr-str x)]))
   cljs.core.List
