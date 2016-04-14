@@ -3,7 +3,14 @@
             [imprimatur.core :as imp]))
 
 (def data
-  (atom ["foo" {:time 0} #{:bar '(foo bar)} true nil {:foo "bar" :baz "quz"}]))
+  (atom ["foo"
+         {:time 0}
+         #{:bar '(foo bar)}
+         true
+         nil
+         {:foo "bar"
+          :baz (js/Date.)
+          :quz (random-uuid)}]))
 
 (def visibility
   (atom {}))

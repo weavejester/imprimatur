@@ -92,10 +92,14 @@
   (-render [x _] (html [:code (str x)]))
   boolean
   (-render [x _] (html [:code (str x)]))
+  js/Date
+  (-render [x _] (html [:code (pr-str x)]))
   cljs.core.Symbol
   (-render [x _] (html [:code (str x)]))
   cljs.core.Keyword
   (-render [x _] (html [:code (str x)]))
+  cljs.core.UUID
+  (-render [x _] (html [:code (pr-str x)]))
   cljs.core.List
   (-render [xs state] (render-coll state "list" "(" (ordered-content state xs) ")"))
   cljs.core.PersistentVector
