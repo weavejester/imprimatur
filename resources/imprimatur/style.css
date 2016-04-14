@@ -55,3 +55,32 @@
     font-family: monospace;
     content: '\00a0';
 }
+
+.imprimatur {
+    color: #333333;
+}
+
+.imprimatur .string {
+    color: #b58900;
+}
+
+.imprimatur .number {
+    color: #859900;
+}
+
+.imprimatur .keyword {
+    color: #d33682;
+}
+
+.imprimatur .symbol {
+    color: #555555;
+}
+
+.imprimatur .nil,
+.imprimatur .boolean {
+    color: #6c71c4;
+}
+
+.imprimatur .tag {
+    color: #2aa198;
+}
