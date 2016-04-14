@@ -34,14 +34,14 @@
 (defn- render-coll
   [{:keys [on-toggle index visibility]} class opening content closing]
   (html
-   [:div.coll {:class class}
+   [:div.coll {:class [class (if visibility "open" "closed")]}
     [:div.toggle {:on-click (click-handler on-toggle index)}
      (if visibility [:span.open] [:span.closed])]
     [:div.inner
      [:span.opening opening]
      (if visibility
        [:div.content content]
-       [:span.ellipses "..."])
+       [:span.ellipses "\u2026"])
      [:span.closing closing]]]))
 
 (defn- ordered-element [state i x]

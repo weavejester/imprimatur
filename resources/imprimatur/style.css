@@ -5,8 +5,13 @@
 .imprimatur ul,
 .imprimatur ol,
 .imprimatur table {
-    padding: 0 0 0 1em;
+    padding: 0 0 0 1.2em;
     margin: 0;
+}
+
+.imprimatur th {
+    font-weight: normal;
+    padding-right: .6em;
 }
 
 .imprimatur .opening,
@@ -31,4 +36,10 @@
 .imprimatur .toggle {
     cursor: pointer;
     margin-right: .3em;
+    width: .5em
+}
+
+.imprimatur .set.open > .inner > .closing:before {
+    font-family: monospace;
+    content: '\00a0';
 }
