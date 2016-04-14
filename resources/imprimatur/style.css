@@ -4,14 +4,26 @@
 
 .imprimatur ul,
 .imprimatur ol,
-.imprimatur table {
+.imprimatur dl {
     padding: 0 0 0 1.2em;
     margin: 0;
 }
 
-.imprimatur th {
-    font-weight: normal;
-    padding-right: .6em;
+.imprimatur dt {
+    float: left;
+    clear: left;
+}
+
+.imprimatur dd {
+    float: left;
+    margin-left: 1em;
+}
+
+/* CSS black magic to add clear after dl */
+.imprimatur dl:after {
+    content: '';
+    display: table;
+    clear: both;
 }
 
 .imprimatur .opening,

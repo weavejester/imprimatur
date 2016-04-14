@@ -68,20 +68,20 @@
 
 (defn- map-entry-element [state [k v]]
   (html
-   [:tr {:key (pr-str k)}
-    [:th
+   (list
+    [:dt {:key (str "key$" (pr-str k))}
      (print (-> state
                 (assoc :root k)
                 (update :visibility #(-> % (get k) :key))
                 (update :index #(-> % (conj k) (conj :key)))))]
-    [:td
+    [:dd {:key (str "val$" (pr-str k))}
      (print (-> state
                 (assoc :root v)
                 (update :visibility #(-> % (get k) :val))
-                (update :index #(-> % (conj k) (conj :val)))))]]))
+                (update :index #(-> % (conj k) (conj :val)))))])))
 
 (defn- map-content [state m]
-  (html [:table [:tbody (map #(map-entry-element state %) m)]]))
+  (html [:dl (map #(map-entry-element state %) m)]))
 
 (extend-protocol IRenderable
   nil
