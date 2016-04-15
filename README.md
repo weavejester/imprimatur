@@ -15,7 +15,7 @@ usable from other React-based libraries.
 
 To install, add the following to your project `:dependencies`:
 
-    [imprimatur "0.1.0-SNAPSHOT"]
+    [imprimatur "0.1.0"]
 
 ## Usage
 
