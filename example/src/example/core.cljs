@@ -8,9 +8,10 @@
          #{:bar '(foo bar)}
          true
          nil
-         {:foo "bar"
-          :baz (js/Date.)
-          :quz (random-uuid)}]))
+         {:foo "hello"
+          :bar (js/Date.)
+          :baz (random-uuid)
+          :quz (into cljs.core.PersistentQueue.EMPTY [1 2 3])}]))
 
 (def visibility
   (atom {}))

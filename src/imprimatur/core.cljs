@@ -91,6 +91,8 @@
 (extend-protocol IRenderable
   nil
   (-render [_ _] (html [:code.nil "nil"]))
+  object
+  (-render [x _] (html [:code.object (pr-str x)]))
   string
   (-render [x _] (html [:code.string (pr-str x)]))
   number
