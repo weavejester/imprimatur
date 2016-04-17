@@ -8,7 +8,7 @@
                  [cljsjs/react "0.14.3-0"]
                  [cljsjs/react-dom "0.14.3-1"]
                  [brutha "0.2.0"]
-                 [imprimatur "0.1.0"]]
+                 [imprimatur "0.1.1"]]
   :plugins [[lein-cljsbuild "1.1.3"]]
   :cljsbuild
   {:builds {:main {:source-paths ["src"]
