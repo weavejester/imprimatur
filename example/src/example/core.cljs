@@ -7,6 +7,7 @@
          {:time 0}
          #{:bar '(foo bar)}
          true
+         (subvec [1 2 3] 0 2)
          nil
          {:foo "hello"
           :bar (js/Date.)

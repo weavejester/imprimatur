@@ -111,6 +111,8 @@
   (-render [xs state] (render-coll state "list" "(" (ordered-content state xs) ")"))
   cljs.core.PersistentVector
   (-render [xs state] (render-coll state "vector" "[" (ordered-content state xs) "]"))
+  cljs.core.Subvec
+  (-render [xs state] (render-coll state "vector" "[" (ordered-content state xs) "]"))
   cljs.core.PersistentHashSet
   (-render [xs state] (render-coll state "set" "#{" (unordered-content state xs) "}"))
   cljs.core.PersistentHashMap
