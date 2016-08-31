@@ -1,4 +1,4 @@
-(defproject imprimatur "0.1.2"
+(defproject imprimatur "0.1.3"
   :description "Data visualization library for ClojureScript and React"
   :url "https://github.com/weavejester/imprimatur"
   :license {:name "Eclipse Public License"
