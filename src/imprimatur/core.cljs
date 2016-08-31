@@ -32,7 +32,7 @@
       (.stopPropagation event)
       (f index))))
 
-(defn- render-coll
+(defn render-coll
   [{:keys [on-toggle index visibility]} class opening content closing]
   (html
    [:div.coll {:class [class (if visibility "open" "closed")]}
@@ -53,7 +53,7 @@
                (update :visibility get i)
                (update :index conj i)))]))
 
-(defn- ordered-content [state coll]
+(defn ordered-content [state coll]
   (html [:ol (map-indexed #(ordered-element state %1 %2) coll)]))
 
 (defn- unordered-element [state x]
@@ -64,7 +64,7 @@
                (update :visibility get x)
                (update :index conj x)))]))
 
-(defn- unordered-content [state coll]
+(defn unordered-content [state coll]
   (html [:ul (map #(unordered-element state %) coll)]))
 
 (defn- map-entry-element [state [k v]]
@@ -81,10 +81,10 @@
                 (update :visibility #(-> % (get k) :val))
                 (update :index #(-> % (conj k) (conj :val)))))])))
 
-(defn- map-content [state m]
+(defn map-content [state m]
   (html [:dl (map #(map-entry-element state %) m)]))
 
-(defn- tagged-data [class x]
+(defn tagged-data [class x]
   (let [[tag data] (str/split (pr-str x) #" " 2)]
     (html [:code {:class class} [:span.tag tag] " " [:span.string data]])))
 
