@@ -113,8 +113,10 @@ For example:
 The `toggle` function will `open` a collection if it's closed, or
 `close` a collection if it's open.
 
+## Example
+
 Look in the `example` directory of the repository for a more detailed
-example. To try Imprimatur within a live coding environment, run `lein figwheel` from this directory.
+example. To try Imprimatur within a live coding environment, run `lein figwheel` from this directory, then browse to http://localhost:3449/.
 
 ## License
 
