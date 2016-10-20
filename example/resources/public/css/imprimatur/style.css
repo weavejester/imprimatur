@@ -1,0 +1,86 @@
+.imprimatur li {
+    display: block;
+}
+
+.imprimatur ul,
+.imprimatur ol,
+.imprimatur dl {
+    padding: 0 0 0 1.2em;
+    margin: 0;
+}
+
+.imprimatur dt {
+    float: left;
+    clear: left;
+}
+
+.imprimatur dd {
+    float: left;
+    margin-left: 1em;
+}
+
+/* CSS black magic to add clear after dl */
+.imprimatur dl:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.imprimatur .opening,
+.imprimatur .closing {
+    font-family: monospace;
+}
+
+.imprimatur .toggle,
+.imprimatur .inner {
+    vertical-align: top;
+    display: inline-block;
+}
+
+.imprimatur .toggle .open:before {
+    content: '\25BE';
+}
+
+.imprimatur .toggle .closed:before {
+    content: '\25B8';
+}
+
+.imprimatur .toggle {
+    cursor: pointer;
+    margin-right: .3em;
+    width: .5em
+}
+
+.imprimatur .set.open > .inner > .closing:before {
+    font-family: monospace;
+    content: '\00a0';
+}
+
+.imprimatur {
+    color: #333333;
+}
+
+.imprimatur .string {
+    color: #b58900;
+}
+
+.imprimatur .number {
+    color: #859900;
+}
+
+.imprimatur .keyword {
+    color: #d33682;
+}
+
+.imprimatur .symbol {
+    color: #555555;
+}
+
+.imprimatur .nil,
+.imprimatur .boolean {
+    color: #6c71c4;
+}
+
+.imprimatur .tag {
+    color: #2aa198;
+}

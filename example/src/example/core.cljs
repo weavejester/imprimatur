@@ -2,10 +2,10 @@
   (:require [brutha.core :as br]
             [imprimatur.core :as imp]))
 
-(def data
+(defonce data
   (atom ["foo"
          {:time 0}
-         #{:bar '(foo bar)}
+         #{:bar '(foo bar baz)}
          true
          (subvec [1 2 3] 0 2)
          nil
@@ -14,7 +14,7 @@
           :baz (random-uuid)
           :quz (into cljs.core.PersistentQueue.EMPTY [1 2 3])}]))
 
-(def visibility
+(defonce visibility
   (atom {}))
 
 (def main
@@ -32,8 +32,15 @@
   (swap! data update-in [1 :time] inc)
   (js/setTimeout inc-time 1000))
 
-(add-watch visibility :change (fn [_ _ _ _] (render)))
-(add-watch data       :change (fn [_ _ _ _] (render)))
+(defonce start
+  (do
+    (add-watch visibility :change (fn [_ _ _ _] (render)))
+    (add-watch data       :change (fn [_ _ _ _] (render)))
+    (render)
+    (inc-time)))
 
-(render)
-(inc-time)
+;; uncomment and save file for some figwheel sweetness
+; (swap! data assoc 0 "baz")
+
+(defn on-js-reload []
+  (render))

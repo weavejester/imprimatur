@@ -15,7 +15,7 @@ usable from other React-based libraries.
 
 To install, add the following to your project `:dependencies`:
 
-    [imprimatur "0.1.3"]
+    `[imprimatur "0.1.4-SNAPSHOT"]`
 
 ## Usage
 
@@ -114,7 +114,7 @@ The `toggle` function will `open` a collection if it's closed, or
 `close` a collection if it's open.
 
 Look in the `example` directory of the repository for a more detailed
-example.
+example. To try Imprimatur within a live coding environment, run `lein figwheel` from this directory.
 
 ## License
 
